@@ -26,7 +26,7 @@ export async function POST(req: Request, res: Response) {
   // load our event
   switch (event.type) {
     case checkout_session_completed:
-      const session = event.data.object;
+      const session = event.data.object as any;
 
       const {
         //@ts-ignore
