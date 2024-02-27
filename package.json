@@ -9,19 +9,37 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@sanity/cli": "^3.29.1",
+    "@sanity/core": "^0.139.3",
+    "@sanity/vision": "^3.29.1",
+    "@stripe/stripe-js": "^3.0.5",
+    "axios": "^1.6.7",
+    "chart.js": "^4.4.1",
+    "next": "14.1.0",
+    "next-auth": "^4.24.6",
+    "next-auth-sanity": "^1.5.3",
+    "next-sanity": "^8.0.0",
     "react": "^18",
+    "react-chartjs-2": "^5.2.0",
+    "react-datepicker": "^6.1.0",
     "react-dom": "^18",
-    "next": "14.1.0"
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.0.1",
+    "sanity": "^3.29.1",
+    "stripe": "^14.18.0",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
+    "@types/react-datepicker": "^6.0.1",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.0"
+    "typescript": "^5"
   }
 }
