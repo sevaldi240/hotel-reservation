@@ -12,8 +12,8 @@ const Home = async () =>{
     <HeroSection/>
     <PageSearch/>
     <FeaturedRoom featuredRoom={featuredRoom}/>
-    <Gallery/>
-    <NewsLetter/>
+    {/* <Gallery/>
+    <NewsLetter/> */}
   </>
   );
 };
