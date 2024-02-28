@@ -40,15 +40,15 @@ const Footer = () => {
                         <h6 className="font-semibold text-[40px] py-6">Redes Sociales</h6>
 
                         <Link className="pb-4" href="https://www.facebook.com" passHref>
-                            <FaFacebook  />
+                            <FaFacebook className="items-center" />
                         </Link>
 
                         <Link className="pb-4" href="https://www.instagram.com" passHref>
-                            <FaInstagram />
+                            <FaInstagram className="items-center"/>
                         </Link>
 
                         <Link className="pb-4" href="https://www.linkedin.com" passHref>
-                            <FaLinkedin />
+                            <FaLinkedin className="items-center"/>
                         </Link>
                     </div>
                 </div>
