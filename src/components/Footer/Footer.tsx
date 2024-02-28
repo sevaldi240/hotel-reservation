@@ -23,7 +23,7 @@ const Footer = () => {
                         </div>
                         <div className="flex items-center">
                             <BsTelephoneOutbound/>
-                            <p className="ml-2">+593-984-654-146</p>
+                            <p className="ml-2">+593-98-862-1799</p>
                         </div>
                         <div className="flex items-center t-4">
                             <BiMessageDetail/>
