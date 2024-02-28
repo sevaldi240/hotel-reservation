@@ -37,18 +37,18 @@ const Footer = () => {
                         <p className="pb-4">Términos y condiciones</p>
                     </div>
                     <div className="flex-2 md:text-right">
-                        <h5 className="font-semibold text-[40px] py-6">Redes Sociales</h5>
+                        <h6 className="font-semibold text-[40px] py-6">Redes Sociales</h6>
 
-                        <Link href="https://www.facebook.com" passHref>
-                            <FaFacebook  className="pb-4"/>
+                        <Link className="pb-4" href="https://www.facebook.com" passHref>
+                            <FaFacebook  />
                         </Link>
 
-                        <Link href="https://www.instagram.com" passHref>
-                            <FaInstagram className="pb-4"/>
+                        <Link className="pb-4" href="https://www.instagram.com" passHref>
+                            <FaInstagram />
                         </Link>
 
-                        <Link href="https://www.linkedin.com" passHref>
-                            <FaLinkedin className="pb-4"/>
+                        <Link className="pb-4" href="https://www.linkedin.com" passHref>
+                            <FaLinkedin />
                         </Link>
                     </div>
                 </div>
