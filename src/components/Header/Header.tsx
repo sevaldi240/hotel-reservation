@@ -74,7 +74,7 @@ const Header = () =>{
                     <Link href="/rooms">Cuartos</Link>
                 </li>
                 <li className="hover:-translate-y-2 duration-500 transition-all">
-                    <Link href="/">Terminos</Link>
+                    <Link href="/tyc">Terminos</Link>
                 </li>
             </ul>
         </header>
