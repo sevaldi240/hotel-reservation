@@ -2,7 +2,7 @@ import Image from "next/image";
 export const heading1= (
     <>
         <h1 className="font-heading mb-6 ">
-            Ven Y Disfruta de la mejor Hostadia
+            Ven Y Disfruta de la mejor Estadía
         </h1>
         <p className="text-[#4a4a4a] dark:text-[#ffffffea] mb-12 max-w-lg">
         ¡Bienvenidos a nuestra cadena de hoteles, donde el calor humano y la pasión por nuestra tierra se funden para ofrecerte una experiencia única al estilo ecuatoriano! Con años de trayectoria en el mercado hotelero, nos enorgullece compartir contigo la riqueza de nuestras tradiciones y la belleza de nuestros paisajes.
