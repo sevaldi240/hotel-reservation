@@ -155,7 +155,7 @@ const UserDetails = (props: { params: { id: string } }) => {
               className={`${
                 currentNav === "bookings" ? "text-blue-600" : "text-gray-700"
               } inline-flex mr-1 md:mr-5 items-center space-x-1 md:space-x-3`}
-            >
+              >
               <li
                 onClick={() => setCurrentNav("bookings")}
                 className="inline-flex items-center cursor-pointer"

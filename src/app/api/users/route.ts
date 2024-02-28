@@ -5,6 +5,7 @@ import { authOptions } from "@/libs/auth";
 import {
   checkReviewExists,
   createReview,
+  deleteBooking,
   getUserData,
   updateReview,
 } from "@/libs/apis";
@@ -65,5 +66,24 @@ export async function POST(req: Request, res: Response) {
   } catch (error: any) {
     console.log("Error Updating", error);
     return new NextResponse("Unable to create review", { status: 400 });
+  }
+}
+
+// Agrega este caso al switch o a la lógica de enrutamiento existente
+export async function DELETE(req: Request, res: Response) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return new NextResponse("Authentication Required", { status: 401 });
+  }
+
+  const { bookingId } = await req.json(); // Asegúrate de enviar 'bookingId' en el cuerpo de tu solicitud
+
+  try {
+    const data = await deleteBooking(bookingId);
+    return new NextResponse(JSON.stringify(data), { status: 200 });
+  } catch (error) {
+    console.error('Error deleting booking:', error);
+    return new NextResponse("Unable to delete booking", { status: 500 });
   }
 }
