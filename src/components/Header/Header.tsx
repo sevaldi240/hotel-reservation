@@ -71,10 +71,10 @@ const Header = () =>{
                     <Link href="/">Home</Link>
                 </li>
                 <li className="hover:-translate-y-2 duration-500 transition-all">
-                    <Link href="/rooms">Rooms</Link>
+                    <Link href="/rooms">Cuartos</Link>
                 </li>
                 <li className="hover:-translate-y-2 duration-500 transition-all">
-                    <Link href="/">Contact</Link>
+                    <Link href="/">Terminos</Link>
                 </li>
             </ul>
         </header>

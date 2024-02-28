@@ -47,10 +47,10 @@ const RoomDetails = (props: { params: { slug: string } }) => {
 
   const handleBookNowClick = async () => {
     if (!checkinDate || !checkoutDate)
-      return toast.error("Please provide checkin / checkout date");
+      return toast.error("Porfavor Ingresa un fecha de checkin / checkout");
 
     if (checkinDate > checkoutDate)
-      return toast.error("Please choose a valid checkin period");
+      return toast.error("Porfavor seleccionaun periodo valido de checkin");
 
     const numberOfDays = calcNumDays();
 
@@ -74,7 +74,7 @@ const RoomDetails = (props: { params: { slug: string } }) => {
         });
 
         if (result.error) {
-          toast.error("Payment Failed");
+          toast.error("Pago Fallado");
         }
       }
     } catch (error) {
@@ -115,11 +115,11 @@ const RoomDetails = (props: { params: { slug: string } }) => {
                 ))}
               </div>
               <div className="mb-11">
-                <h2 className="font-bold text-3xl mb-2">Description</h2>
+                <h2 className="font-bold text-3xl mb-2">Descripción</h2>
                 <p>{room.description}</p>
               </div>
               <div className="mb-11">
-                <h2 className="font-bold text-3xl mb-2">Offered Amenities</h2>
+                <h2 className="font-bold text-3xl mb-2">Servicios Incluidos</h2>
                 <div className="grid grid-cols-2">
                   {room.offeredAmenities.map(amenity => (
                     <div
@@ -134,7 +134,7 @@ const RoomDetails = (props: { params: { slug: string } }) => {
                   ))}
                 </div>
               </div>
-              <div className="mb-11">
+              {/* <div className="mb-11">
                 <h2 className="font-bold text-3xl mb-2">Safety And Hygiene</h2>
                 <div className="grid grid-cols-2">
                   <div className="flex items-center my-1 md:my-0">
@@ -158,11 +158,11 @@ const RoomDetails = (props: { params: { slug: string } }) => {
                     <p className="ml-2 md:text-base text-xs">Smoke Detectors</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="shadow dark:shadow-white rounded-lg p-6">
                 <div className="items-center mb-4">
-                  <p className="md:text-lg font-semibold">Customer Reviews</p>
+                  <p className="md:text-lg font-semibold">Reviews</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <RoomReview roomId={room._id} />

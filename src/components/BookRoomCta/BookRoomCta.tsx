@@ -155,7 +155,7 @@ const BookRoomCta: FC<Props> = props => {
         onClick={handleBookNowClick}
         className="btn-primary w-full mt-6 disabled:bg-gray-500 disabled:cursor-not-allowed"
       >
-        {isBooked ? "Booked" : "Book Now"}
+        {isBooked ? "Reservado" : "Reserva Ahora"}
       </button>
     </div>
   );

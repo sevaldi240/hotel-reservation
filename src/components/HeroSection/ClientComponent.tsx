@@ -14,7 +14,7 @@ const ClientComponent: FC<Props> = (props) => {
                 {heading1}
 
                 
-                <div className="flex justify-between mt-12">
+                {/* <div className="flex justify-between mt-12">
                     <div className="flex gap-3 flex-col items-center justify-center">
                         <p className="text-xs lg:text-xl text-center">Basic Room</p>
                         <CountUpNumber duration={5000} endValue={100}/>
@@ -28,7 +28,7 @@ const ClientComponent: FC<Props> = (props) => {
                         <p className="text-xs lg:text-xl text-center">Suite Room</p>
                         <CountUpNumber duration={5000} endValue={100}/>
                     </div>
-                </div>
+                </div> */}
             </div>
             {section2}
         </section>

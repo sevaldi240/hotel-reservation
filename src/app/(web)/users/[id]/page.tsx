@@ -52,7 +52,7 @@ const UserDetails = (props: { params: { id: string } }) => {
         roomId,
       });
       console.log(data);
-      toast.success("Review Submitted");
+      toast.success("Review registrada");
     } catch (error) {
       console.log(error);
       toast.error("Review Failed");
@@ -124,7 +124,7 @@ const UserDetails = (props: { params: { id: string } }) => {
 
         <div className="md:col-span-8 lg:col-span-9">
           <div className="flex items-center">
-            <h5 className="text-2xl font-bold mr-3">Hello, {userData.name}</h5>
+            <h5 className="text-2xl font-bold mr-3">Hola, {userData.name}</h5>
           </div>
           <div className="md:hidden w-14 h-14 rounded-l-full overflow-hidden">
             <Image
@@ -162,7 +162,7 @@ const UserDetails = (props: { params: { id: string } }) => {
               >
                 <BsJournalBookmarkFill />
                 <a className="inline-flex items-center mx-1 md:mx-3 text-xs md:text-sm font-medium">
-                  Current Bookings
+                  Reservas Actuales
                 </a>
               </li>
             </ol>
@@ -177,7 +177,7 @@ const UserDetails = (props: { params: { id: string } }) => {
               >
                 <GiMoneyStack />
                 <a className="inline-flex items-center mx-1 md:mx-3 text-xs md:text-sm font-medium">
-                  Amount Spent
+                  Cantidad Gastada
                 </a>
               </li>
             </ol>

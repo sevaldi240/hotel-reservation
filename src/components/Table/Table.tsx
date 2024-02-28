@@ -19,12 +19,12 @@ const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal }) => {
       <table className="w-full text-sm text-left text-gray-500">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
-            <th className="px-6 py-3">Room name</th>
-            <th className="px-6 py-3">Unit Price</th>
-            <th className="px-6 py-3">Price</th>
-            <th className="px-6 py-3">Discount</th>
-            <th className="px-6 py-3">No. Days Booked</th>
-            <th className="px-6 py-3">Days Left</th>
+            <th className="px-6 py-3">Nombre de Servicio</th>
+            <th className="px-6 py-3">Precio unitario</th>
+            <th className="px-6 py-3">Precio</th>
+            <th className="px-6 py-3">Descuentos</th>
+            <th className="px-6 py-3">No. Días Reservados</th>
+            <th className="px-6 py-3">Dias Faltantes</th>
             <th className="px-6 py-3"></th>
           </tr>
         </thead>

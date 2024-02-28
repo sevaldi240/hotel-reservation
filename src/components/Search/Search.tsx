@@ -33,16 +33,16 @@ type Props = {
             <div className="container mx-auto flex gap4 flex-wrap justify-between items-center">
                 <div className="w-full md:1/3 lg:w-auto mb-4 md:mb-0">
                     <label className="block text-sm font-medium mb-2 text-[#0B132B]">
-                        Room Type
+                        Tipo de Hospedaje
                     </label>
                     <div className="relative">
                         <select 
                         value= {roomTypeFilter} 
                         onChange={handleRoomTypeChange} 
                         className="w-full px-4 py-2 capitalize rounded leading-tight dark:bg-[#0B132B] focus:outline-none">
-                            <option value="All">All</option>
-                            <option value="Basic">Basic</option>
-                            <option value="Luxury">Luxury</option>
+                            <option value="All">Todos</option>
+                            <option value="Basic">Habitación</option>
+                            <option value="Luxury">Cabaña</option>
                             <option value="Suite">Suite</option>
                         </select>
                     </div>
@@ -50,7 +50,7 @@ type Props = {
 
                 <div className="w-full md:1/3 lg:w-auto mb-4 md:mb-0">
                     <label className="block text-sm font-medium mb-2 text-[#0B132B]">
-                        Search
+                        Buscar
                     </label>
                     <input 
                     type="search" 
@@ -66,7 +66,7 @@ type Props = {
                 type="button"
                  onClick={handleFilterClick}
                 >
-                    Search
+                    Buscar
                 </button>
             </div>
         </section>
