@@ -21,7 +21,7 @@ const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal }) => {
     }
     
     try {
-      const response = await fetch('/api/booking', { // Asegúrate de que la ruta sea correcta
+      const response = await fetch('/api/users', { // Asegúrate de que la ruta sea correcta
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
