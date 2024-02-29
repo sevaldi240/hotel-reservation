@@ -9,9 +9,10 @@ type Props = {
   bookingDetails: Booking[];
   setRoomId: Dispatch<SetStateAction<string | null>>;
   toggleRatingModal: () => void;
+  handleBookNowClick: () => void;
 };
 
-const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal }) => {
+const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal, handleBookNowClick }) => {
   const router = useRouter();
 
    // Función para manejar la eliminación de un booking
@@ -94,7 +95,8 @@ const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal }) => {
                 </button>
 
                 <button
-                  // onClick={() => handleEdit(booking)}
+                   onClick={() => {setRoomId(booking.hotelRoom._id);
+                    handleBookNowClick()}}
                   className="font-medium text-green-600 hover:underline"
                 >
                   Modify
