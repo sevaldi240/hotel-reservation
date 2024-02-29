@@ -30,11 +30,13 @@ const UserDetails = (props: { params: { id: string } }) => {
   >("bookings");
   const [roomId, setRoomId] = useState<string | null>(null);
   const [isRatingVisible, setIsRatingVisible] = useState(false);
+  const [isModifyVisible, setIsModifyVisible] = useState(false);
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   const [ratingValue, setRatingValue] = useState<number | null>(0);
   const [ratingText, setRatingText] = useState("");
 
   const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
+  const handleBookNowClick = () => setIsModifyVisible(prevState => !prevState);
 
   const reviewSubmitHandler = async () => {
     if (!ratingText.trim().length || !ratingValue) {
@@ -189,6 +191,7 @@ const UserDetails = (props: { params: { id: string } }) => {
                 bookingDetails={userBookings}
                 setRoomId={setRoomId}
                 toggleRatingModal={toggleRatingModal}
+                handleBookNowClick={handleBookNowClick}
               />
             )
           ) : (
