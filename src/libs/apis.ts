@@ -233,3 +233,30 @@ export const createBooking = async ({
     return response.data;
   };
   
+  // export const updateBooking = async (updatedBookingData) => {
+  //   // La estructura de updatedBookingData debe coincidir con el esquema de tu base de datos
+  //   const mutation = {
+  //     mutations: [
+  //       {
+  //         patch: {
+  //           id: updatedBookingData._id, // Asegúrate de que tienes el ID de la reserva
+  //           set: {
+  //             // Aquí van todos los campos que quieres actualizar
+  //             checkinDate: updatedBookingData.checkinDate,
+  //             checkoutDate: updatedBookingData.checkoutDate,
+  //             // ...otros campos a actualizar
+  //           },
+  //         },
+  //       },
+  //     ],
+  //   };
+  
+  //   const response = await axios.post(
+  //     `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-10-21/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}`,
+  //     mutation,
+  //     { headers: { Authorization: `Bearer ${process.env.SANITY_STUDIO_TOKEN}` } }
+  //   );
+  
+  //   return response.data;
+  // };
+  

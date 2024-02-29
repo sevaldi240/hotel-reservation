@@ -93,6 +93,13 @@ const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal }) => {
                   Delete
                 </button>
 
+                <button
+                  // onClick={() => handleEdit(booking)}
+                  className="font-medium text-green-600 hover:underline"
+                >
+                  Modify
+                </button>
+
               </td>
             </tr>
           ))}

@@ -87,3 +87,17 @@ export async function DELETE(req: Request, res: Response) {
     return new NextResponse("Unable to delete booking", { status: 500 });
   }
 }
+
+// export async function PATCH(req: Request, res: Response) {
+//   // ...obtener sesión y verificarla como en las otras funciones
+
+//   const updatedBookingData = await req.json(); // Obtiene los datos actualizados de la solicitud
+
+//   try {
+//     const data = await updateBooking(updatedBookingData);
+//     return new NextResponse(JSON.stringify(data), { status: 200 });
+//   } catch (error) {
+//     console.error('Error updating booking:', error);
+//     return new NextResponse("Unable to update booking", { status: 500 });
+//   }
+// }
