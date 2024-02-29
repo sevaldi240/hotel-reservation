@@ -12,12 +12,12 @@ type Props = {
   setCheckoutDate: Dispatch<SetStateAction<Date | null>>;
   setAdults: Dispatch<SetStateAction<number>>;
   setNoOfChildren: Dispatch<SetStateAction<number>>;
-  calcMinCheckoutDate: () => Date | null;
+  calcMinCheckoutDate?: () => Date | null;
   price: number;
-  discount: number;
+  discount?: number;
   adults: number;
   noOfChildren: number;
-  specialNote: string;
+  specialNote?: string;
   isBooked: boolean;
   handleBookNowClick: () => void;
 };
@@ -41,8 +41,6 @@ const BookRoomCtaModal: FC<Props> = props => {
     handleBookNowClick,
   } = props;
 
-  const discountPrice = price - (price / 100) * discount;
-
   const calcNoOfDays = () => {
     if (!checkinDate || !checkoutDate) return 0;
     const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
@@ -65,15 +63,6 @@ const BookRoomCtaModal: FC<Props> = props => {
         >
           $ {price}
         </span>
-        {discount ? (
-          <span className="font-bold text-xl">
-            {" "}
-            | discount {discount}%. Now{" "}
-            <span className="text-tertiary-dark">$ {discountPrice}</span>
-          </span>
-        ) : (
-          ""
-        )}
       </h3>
 
       <div className="w-full border-b-2 border-b-secondary my-2" />
@@ -109,7 +98,6 @@ const BookRoomCtaModal: FC<Props> = props => {
             onChange={date => setCheckoutDate(date)}
             dateFormat="dd/MM/yyyy"
             disabled={!checkinDate}
-            minDate={calcMinCheckoutDate()}
             id="check-out-date"
             className="w-full border text-black border-gray-300 rounded-lg p-2.5 focus:ring-primary focus:border-primary"
           />
@@ -154,7 +142,7 @@ const BookRoomCtaModal: FC<Props> = props => {
       </div>
 
       {calcNoOfDays() > 0 ? (
-        <p className="mt-3">Total Price: $ {calcNoOfDays() * discountPrice}</p>
+        <p className="mt-3">Total Price: $ {calcNoOfDays() }</p>
       ) : (
         <></>
       )}

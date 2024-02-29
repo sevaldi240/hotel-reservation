@@ -17,6 +17,7 @@ import Chart from "@/components/Chart/Chart";
 import RatingModal from "@/components/RatingModal/RatingModal";
 import BackDrop from "@/components/BackDrop/BackDrop";
 import toast from "react-hot-toast";
+import BookRoomCtaModal from "@/components/BookRoomCtaModal/BookRoomCtaModal";
 
 
 
@@ -34,6 +35,12 @@ const UserDetails = (props: { params: { id: string } }) => {
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   const [ratingValue, setRatingValue] = useState<number | null>(0);
   const [ratingText, setRatingText] = useState("");
+  const [checkinDate, setCheckinDate] = useState<Date | null>(null);
+  const [checkoutDate,setCheckoutDate]= useState <Date | null>(null);
+  const [adults,setAdults]= useState<number>(1);
+  const [noOfChildren,setNoOfChildren]=useState<number>(0);
+  const [isBooked, setIsBooked]=useState(false);
+  const [price]=useState<number>(0);
 
   const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
   const handleBookNowClick = () => setIsModifyVisible(prevState => !prevState);
@@ -61,9 +68,12 @@ const UserDetails = (props: { params: { id: string } }) => {
     } finally {
       setRatingText("");
       setRatingValue(null);
+      setAdults(1);
+      setNoOfChildren(0);
       setRoomId(null);
       setIsSubmittingReview(false);
       setIsRatingVisible(false);
+      setIsModifyVisible(false);
     }
   };
 
@@ -205,7 +215,7 @@ const UserDetails = (props: { params: { id: string } }) => {
           )}
         </div>
       </div>
-
+      
       <RatingModal
         isOpen={isRatingVisible}
         ratingValue={ratingValue}
@@ -217,6 +227,21 @@ const UserDetails = (props: { params: { id: string } }) => {
         toggleRatingModal={toggleRatingModal}
       />
       <BackDrop isOpen={isRatingVisible} />
+      <BookRoomCtaModal  
+        isOpen= {isModifyVisible}
+        checkinDate= {checkinDate}
+        setCheckinDate= {setCheckinDate}
+        checkoutDate={checkoutDate}
+        setCheckoutDate={setCheckoutDate}
+        setAdults={setAdults}
+        setNoOfChildren={setNoOfChildren}
+        noOfChildren={noOfChildren}
+        price={price}
+        adults={adults}
+        isBooked= {isBooked}
+        handleBookNowClick={handleBookNowClick}
+        />
+      <BackDrop isOpen={isModifyVisible}/>
     </div>
   );
 };
