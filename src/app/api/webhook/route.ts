@@ -54,6 +54,8 @@ export async function POST(req: Request, res: Response) {
         totalPrice: Number(totalPrice),
         user,
       });
+      
+
 
       //  Update hotel Room
       await updateHotelRoom(hotelRoom);

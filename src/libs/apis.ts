@@ -2,7 +2,7 @@
 import axios from "axios";
 import { CreateBookingDto, Room } from "@/models/room";
 import sanityClient from "./sanity";
-import { Booking } from "@/models/booking";
+import { Booking, updateBookingDto } from "@/models/booking";
 import * as queries from "./sanityQueries"
 import { CreateReviewDto, Review, UpdateReviewDto } from "@/models/review";
 
@@ -232,31 +232,59 @@ export const createBooking = async ({
   
     return response.data;
   };
+
+  export async function checkUpdateExists(
+    userId: string,
+  ): Promise<null | { _id: string }> {
+    const query = `*[_type == "booking" && user._ref == $userId && hotelRoom._ref == $hotelRoomId][0] {
+      _id
+    }`;
   
-  // export const updateBooking = async (updatedBookingData) => {
-  //   // La estructura de updatedBookingData debe coincidir con el esquema de tu base de datos
-  //   const mutation = {
-  //     mutations: [
-  //       {
-  //         patch: {
-  //           id: updatedBookingData._id, // Asegúrate de que tienes el ID de la reserva
-  //           set: {
-  //             // Aquí van todos los campos que quieres actualizar
-  //             checkinDate: updatedBookingData.checkinDate,
-  //             checkoutDate: updatedBookingData.checkoutDate,
-  //             // ...otros campos a actualizar
-  //           },
-  //         },
-  //       },
-  //     ],
-  //   };
+    const params = {
+      userId,
+    };
   
-  //   const response = await axios.post(
-  //     `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-10-21/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}`,
-  //     mutation,
-  //     { headers: { Authorization: `Bearer ${process.env.SANITY_STUDIO_TOKEN}` } }
-  //   );
+    const result = await sanityClient.fetch(query, params);
   
-  //   return response.data;
-  // };
+    return result ? result : null;
+  }
+
+  export const updateBooking = async ({
+    _id,
+    adults,
+    checkinDate,
+    checkoutDate,
+    children,
+    discount,
+    numberOfDays,
+    totalPrice,
+    user,
+  }: updateBookingDto) => {
+    const mutation = {
+      mutations: [
+        {
+          patch: {
+            id: _id, 
+            set: {
+              adults,
+              checkinDate,
+              checkoutDate,
+              children,
+              discount,
+              numberOfDays,
+              totalPrice,
+              user,
+            },
+          },
+        },
+      ],
+    };
   
+    const { data } = await axios.post(
+      `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-10-21/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}`,
+      mutation,
+      { headers: { Authorization: `Bearer ${process.env.SANITY_STUDIO_TOKEN}` } }
+    );
+  
+    return data;
+  };

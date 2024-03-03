@@ -32,7 +32,6 @@ const BookRoomCtaModal: FC<Props> = props => {
     setCheckinDate,
     checkoutDate,
     setCheckoutDate,
-    calcMinCheckoutDate,
     setAdults,
     setNoOfChildren,
     adults,

@@ -18,6 +18,7 @@ import RatingModal from "@/components/RatingModal/RatingModal";
 import BackDrop from "@/components/BackDrop/BackDrop";
 import toast from "react-hot-toast";
 import BookRoomCtaModal from "@/components/BookRoomCtaModal/BookRoomCtaModal";
+import { getStripe } from "@/libs/stripe";
 
 
 
@@ -43,8 +44,7 @@ const UserDetails = (props: { params: { id: string } }) => {
   const [price]=useState<number>(0);
 
   const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
-  const handleBookNowClick = () => setIsModifyVisible(prevState => !prevState);
-
+  
   const reviewSubmitHandler = async () => {
     if (!ratingText.trim().length || !ratingValue) {
       return toast.error("Please provide a rating text and a rating");
@@ -82,18 +82,75 @@ const UserDetails = (props: { params: { id: string } }) => {
     const { data } = await axios.get<User>("/api/users");
     return data;
   };
+  const fetchUserBook = async () => {
+    const { data } = await axios.put<User>("/api/users");
+    return data;
+  };
 
   const {
     data: userBookings,
     error,
     isLoading,
   } = useSWR("/api/userbooking", fetchUserBooking);
+  
 
   const {
     data: userData,
     isLoading: loadingUserData,
     error: errorGettingUserData,
   } = useSWR("/api/users", fetchUserData);
+
+
+  const { 
+    data: user, 
+    error:errorUserBooking, 
+    isLoading:erroruserBooking 
+  } = useSWR("/api/room", fetchUserBook);
+
+  const calcNumDays = () => {
+    if (!checkinDate || !checkoutDate) return;
+    const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
+    const noOfDays = Math.ceil(timeDiff / (24 * 60 * 60 * 1000));
+    return noOfDays;
+  };
+
+  const handleBookNowClick = async () => {
+    if (!checkinDate || !checkoutDate)
+      return toast.error("Porfavor Ingresa un fecha de checkin / checkout");
+
+    if (checkinDate > checkoutDate)
+      return toast.error("Porfavor seleccionaun periodo valido de checkin");
+
+    const numberOfDays = calcNumDays();
+
+
+    const stripe = await getStripe();
+
+    try {
+      const { data: stripeSession } = await axios.put("/api/stripe",{
+        checkinDate,
+        checkoutDate,
+        adults,
+        children: noOfChildren,
+        numberOfDays,
+        
+      });
+
+      if (stripe) {
+        const result = await stripe.redirectToCheckout({
+          sessionId: stripeSession.id,
+        });
+
+        if (result.error) {
+          toast.error("Pago Fallado");
+        }
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+      toast.error("An error occured");
+    }
+  };
+
 
   if (error || errorGettingUserData) throw new Error("Cannot fetch data");
   if (typeof userBookings === "undefined" && !isLoading)

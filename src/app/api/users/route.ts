@@ -7,6 +7,7 @@ import {
   createReview,
   deleteBooking,
   getUserData,
+  updateBooking,
   updateReview,
 } from "@/libs/apis";
 
@@ -88,16 +89,20 @@ export async function DELETE(req: Request, res: Response) {
   }
 }
 
-// export async function PATCH(req: Request, res: Response) {
-//   // ...obtener sesión y verificarla como en las otras funciones
+export async function PUT(req: Request, res: Response) {
+  const session = await getServerSession(authOptions);
 
-//   const updatedBookingData = await req.json(); // Obtiene los datos actualizados de la solicitud
+  if (!session) {
+    return new NextResponse("Authentication Required", { status: 401 });
+  }
 
-//   try {
-//     const data = await updateBooking(updatedBookingData);
-//     return new NextResponse(JSON.stringify(data), { status: 200 });
-//   } catch (error) {
-//     console.error('Error updating booking:', error);
-//     return new NextResponse("Unable to update booking", { status: 500 });
-//   }
-// }
+  const { bookingId } = await req.json(); // Asegúrate de enviar 'bookingId' en el cuerpo de tu solicitud
+
+  try {
+    const data = await updateBooking(bookingId);
+    return new NextResponse(JSON.stringify(data), { status: 200 });
+  } catch (error) {
+    console.error('Error deleting booking:', error);
+    return new NextResponse("Unable to delete booking", { status: 500 });
+  }
+}

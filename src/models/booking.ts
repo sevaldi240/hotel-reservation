@@ -14,4 +14,22 @@ export type Booking = {
     totalPrice: number;
     discount: number;
   };
+
+  export type updateBookingDto={
+    _id: string;
+    adults: number;
+    checkinDate: string;
+    checkoutDate: string;
+    children: number;
+    discount: number;
+    hotelRoom: {
+      _id: string;
+      name: string;
+      slug: { current: string };
+      price: number;
+    };
+    numberOfDays:number,
+    totalPrice:number,
+    user:string,
+  };
   
