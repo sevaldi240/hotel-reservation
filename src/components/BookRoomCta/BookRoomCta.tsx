@@ -41,6 +41,7 @@ const BookRoomCta: FC<Props> = props => {
 
   const discountPrice = price - (price / 100) * discount;
 
+
   const calcNoOfDays = () => {
     if (!checkinDate || !checkoutDate) return 0;
     const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
@@ -152,7 +153,14 @@ const BookRoomCta: FC<Props> = props => {
 
       <button
         disabled={isBooked}
-        onClick={handleBookNowClick}
+        onClick={async () => {
+          handleBookNowClick();
+          const res = await fetch('/api/send', 
+          {
+            method: 'POST',
+          });
+          const data = await res.json();
+        }}
         className="btn-primary w-full mt-6 disabled:bg-gray-500 disabled:cursor-not-allowed"
       >
         {isBooked ? "Reservado" : "Reserva Ahora"}
