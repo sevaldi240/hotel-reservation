@@ -149,13 +149,13 @@ const BookRoomCtaModal: FC<Props> = props => {
       ) : (
         <></>
       )}
-      <button
+      {/* <button
             onClick={bookingSubmitHandler}
             className="px-4 py-2 bg-primary text-white rounded-md"
             disabled={isSubmittingBooking}
           >
             {isSubmittingBooking ? "Submitting" : "Submit"}
-      </button>
+      </button> */}
       <button
             onClick={handleBookNowClick}
             className="ml-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
@@ -164,12 +164,14 @@ const BookRoomCtaModal: FC<Props> = props => {
       </button>
       <button
         onClick={async () => {
-          handleBookNowClick();
-          const res = await fetch('/api/send', 
-          {
+          // Lógica para enviar la solicitud al servidor
+          const res = await fetch('/api/send', {
             method: 'POST',
           });
           const data = await res.json();
+
+          // Lógica para eliminar el elemento (puedes ajustar esto según tus necesidades)
+          handleBookNowClick();
         }}
         className="btn-primary w-full mt-6 disabled:bg-gray-500 disabled:cursor-not-allowed"
       >
