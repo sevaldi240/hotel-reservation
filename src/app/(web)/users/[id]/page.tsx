@@ -127,7 +127,7 @@ const UserDetails = (props: { params: { id: string } }) => {
     const stripe = await getStripe();
 
     try {
-      const { data: stripeSession } = await axios.put("/api/stripe",{
+      const { data: stripeSession } = await axios.post("/api/stripe",{
         checkinDate,
         checkoutDate,
         adults,
