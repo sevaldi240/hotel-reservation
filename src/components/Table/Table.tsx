@@ -12,7 +12,7 @@ type Props = {
   toggleBookingModal: () => void;
 };
 
-const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal,toggleBookingModal }) => {
+const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal, toggleBookingModal }) => {
   const router = useRouter();
 
    // Función para manejar la eliminación de un booking
@@ -44,33 +44,33 @@ const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal,toggleB
     }
   };
 
-  const handleUpdate = async (bookingId: string) => {
-    if (!confirm('Are you sure you want to update this booking?')) {
-      return;
-    }
+  // const handleUpdate = async (bookingId: string) => {
+  //   if (!confirm('Are you sure you want to update this booking?')) {
+  //     return;
+  //   }
     
-    try {
-      const response = await fetch('/api/users', { // Asegúrate de que la ruta sea correcta
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ bookingId }),
-      });
+  //   try {
+  //     const response = await fetch('/api/users', { // Asegúrate de que la ruta sea correcta
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ bookingId }),
+  //     });
 
-      if (response.ok) {
-        alert('Booking Update successfully');
-        // Actualizar el estado para reflejar la eliminación
-        // Esto podría implicar una nueva llamada a la API para obtener los bookings actualizados
-        // o simplemente eliminar el booking del estado local
-      } else {
-        throw new Error('Failed to update the booking');
-      }
-    } catch (error) {
-      console.error('Error deleting booking:', error);
-      alert('Error deleting booking');
-    }
-  };
+  //     if (response.ok) {
+  //       alert('Booking Update successfully');
+  //       // Actualizar el estado para reflejar la eliminación
+  //       // Esto podría implicar una nueva llamada a la API para obtener los bookings actualizados
+  //       // o simplemente eliminar el booking del estado local
+  //     } else {
+  //       throw new Error('Failed to update the booking');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error deleting booking:', error);
+  //     alert('Error deleting booking');
+  //   }
+  // };
   
 
   return (
@@ -135,9 +135,8 @@ const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal,toggleB
                 <br />
                 <button
                    onClick={() => {
-                    toggleBookingModal();
                     setRoomId(booking.hotelRoom._id);
-                    
+                    toggleBookingModal();
                   }}
                   className="font-medium text-green-600 hover:underline"
                 >

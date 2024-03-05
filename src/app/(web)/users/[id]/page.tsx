@@ -56,7 +56,7 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
   const [price]=useState<number>(0);
   const fetchRoom = async () => getRoom(slug);
   const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
-  const toggleBookingModal = () => setIsRatingVisible(prevState => !prevState);
+  const toggleBookingModal = () => setIsModifyVisible(prevState => !prevState);
   //const handleBookNowClick = () => setIsRatingVisible(prevState => !prevState);
 
   // const handleBookNowClicks = async () => {

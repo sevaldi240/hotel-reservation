@@ -102,7 +102,7 @@ export async function PUT(req: Request, res: Response) {
     const data = await updateBooking(bookingId);
     return new NextResponse(JSON.stringify(data), { status: 200 });
   } catch (error) {
-    console.error('Error deleting booking:', error);
-    return new NextResponse("Unable to delete booking", { status: 500 });
+    console.error('Error updating booking:', error);
+    return new NextResponse("Unable to update booking", { status: 500 });
   }
 }
