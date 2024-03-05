@@ -15,7 +15,7 @@ interface EmailTemplateProps {
   </p>
   <p>
     Para más información de nuestros términos y condiciones porfavor revisa el siguiente enlace
-    <a href="https://hotel-reservation-opal.vercel.app/tyc"> Terminos Y Condiciones</a>
+    {/* <a href="https://hotel-reservation-opal.vercel.app/tyc"> Terminos Y Condiciones</a> */}
   </p>
   <p className="text-lg mb-4">
     ¡Esperamos verte pronto!
