@@ -10,7 +10,7 @@ export async function POST() {
   try {
     const data = await resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',
-      to: ['scaizatamayoregion169@gmail.com'],
+      to: ['sebastian_guaman26@hotmail.com'],
       subject: 'Eliminación de Reserva',
       react: EmailTemplatedelete({ firstName: 'Sergio' }),
       text:""
