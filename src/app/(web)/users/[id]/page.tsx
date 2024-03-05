@@ -6,7 +6,7 @@ import Image from "next/image";
 import axios from "axios";
 import { signOut } from "next-auth/react";
 
-import { getUserBookings } from "@/libs/apis";
+import { getRoom, getUserBookings } from "@/libs/apis";
 import { User } from "@/models/user";
 import LoadingSpinner from "../../loading";
 import { useState } from "react";
@@ -25,6 +25,7 @@ import { getStripe } from "@/libs/stripe";
 const UserDetails = (props: { params: { id: string } }) => {
   const {
     params: { id: userId },
+    
   } = props;
 
   const [currentNav, setCurrentNav] = useState<
@@ -34,6 +35,7 @@ const UserDetails = (props: { params: { id: string } }) => {
   const [isRatingVisible, setIsRatingVisible] = useState(false);
   const [isModifyVisible, setIsModifyVisible] = useState(false);
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const [isSubmittingBooking, setIsSubmittingBooking] = useState(false);
   const [ratingValue, setRatingValue] = useState<number | null>(0);
   const [ratingText, setRatingText] = useState("");
   const [checkinDate, setCheckinDate] = useState<Date | null>(null);
@@ -42,8 +44,12 @@ const UserDetails = (props: { params: { id: string } }) => {
   const [noOfChildren,setNoOfChildren]=useState<number>(0);
   const [isBooked, setIsBooked]=useState(false);
   const [price]=useState<number>(0);
+  const fetchRoom = async () => getRoom(userId);
+
+   const { data: room, error:errorbooking, isLoading:errorloading } = useSWR("/api/room", fetchRoom);
 
   const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
+  const handleBookNowClick = () => setIsModifyVisible(prevState => !prevState);
   
   const reviewSubmitHandler = async () => {
     if (!ratingText.trim().length || !ratingValue) {
@@ -76,6 +82,43 @@ const UserDetails = (props: { params: { id: string } }) => {
       setIsModifyVisible(false);
     }
   };
+
+  const bookingSubmitHandler = async () => {
+    if (!checkinDate || !checkoutDate)
+      return toast.error("Porfavor Ingresa un fecha de checkin / checkout");
+
+    if (checkinDate > checkoutDate)
+      return toast.error("Porfavor seleccionaun periodo valido de checkin");
+
+    const numberOfDays = calcNumDays();
+
+
+    const stripe = await getStripe();
+
+    try {
+      const { data: stripeSession } = await axios.post("/api/stripe", {
+        checkinDate,
+        checkoutDate,
+        adults,
+        children: noOfChildren,
+        numberOfDays,
+      });
+
+      if (stripe) {
+        const result = await stripe.redirectToCheckout({
+          sessionId: stripeSession.id,
+        });
+
+        if (result.error) {
+          toast.error("Pago Fallado");
+        }
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+      toast.error("An error occured");
+    }
+  };
+
 
   const fetchUserBooking = async () => getUserBookings(userId);
   const fetchUserData = async () => {
@@ -114,42 +157,42 @@ const UserDetails = (props: { params: { id: string } }) => {
     return noOfDays;
   };
 
-  const handleBookNowClick = async () => {
-    if (!checkinDate || !checkoutDate)
-      return toast.error("Porfavor Ingresa un fecha de checkin / checkout");
+  // const handleBookNowClick = async () => {
+  //   if (!checkinDate || !checkoutDate)
+  //     return toast.error("Porfavor Ingresa un fecha de checkin / checkout");
 
-    if (checkinDate > checkoutDate)
-      return toast.error("Porfavor seleccionaun periodo valido de checkin");
+  //   if (checkinDate > checkoutDate)
+  //     return toast.error("Porfavor seleccionaun periodo valido de checkin");
 
-    const numberOfDays = calcNumDays();
+  //   const numberOfDays = calcNumDays();
 
 
-    const stripe = await getStripe();
+  //   const stripe = await getStripe();
 
-    try {
-      const { data: stripeSession } = await axios.post("/api/users",{
-        checkinDate,
-        checkoutDate,
-        adults,
-        children: noOfChildren,
-        numberOfDays,
+  //   try {
+  //     const { data: stripeSession } = await axios.post("/api/users",{
+  //       checkinDate,
+  //       checkoutDate,
+  //       adults,
+  //       children: noOfChildren,
+  //       numberOfDays,
         
-      });
+  //     });
 
-      if (stripe) {
-        const result = await stripe.redirectToCheckout({
-          sessionId: stripeSession.id,
-        });
+  //     if (stripe) {
+  //       const result = await stripe.redirectToCheckout({
+  //         sessionId: stripeSession.id,
+  //       });
 
-        if (result.error) {
-          toast.error("Pago Fallado");
-        }
-      }
-    } catch (error) {
-      console.log("Error: ", error);
-      toast.error("An error occured");
-    }
-  };
+  //       if (result.error) {
+  //         toast.error("Pago Fallado");
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log("Error: ", error);
+  //     toast.error("An error occured");
+  //   }
+  // };
 
 
   if (error || errorGettingUserData) throw new Error("Cannot fetch data");
@@ -296,6 +339,8 @@ const UserDetails = (props: { params: { id: string } }) => {
         price={price}
         adults={adults}
         isBooked= {isBooked}
+        bookingSubmitHandler={bookingSubmitHandler}
+        isSubmittingBooking={isSubmittingBooking}
         handleBookNowClick={handleBookNowClick}
         />
       <BackDrop isOpen={isModifyVisible}/>

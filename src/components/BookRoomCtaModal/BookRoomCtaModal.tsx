@@ -19,6 +19,8 @@ type Props = {
   noOfChildren: number;
   specialNote?: string;
   isBooked: boolean;
+  bookingSubmitHandler: () => Promise<string | undefined>;
+  isSubmittingBooking:boolean;
   handleBookNowClick: () => void;
 };
 
@@ -37,6 +39,8 @@ const BookRoomCtaModal: FC<Props> = props => {
     adults,
     noOfChildren,
     isBooked,
+    bookingSubmitHandler,
+    isSubmittingBooking,
     handleBookNowClick,
   } = props;
 
@@ -145,7 +149,19 @@ const BookRoomCtaModal: FC<Props> = props => {
       ) : (
         <></>
       )}
-
+      <button
+            onClick={bookingSubmitHandler}
+            className="px-4 py-2 bg-primary text-white rounded-md"
+            disabled={isSubmittingBooking}
+          >
+            {isSubmittingBooking ? "Submitting" : "Submit"}
+      </button>
+      <button
+            onClick={handleBookNowClick}
+            className="ml-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+          >
+            Cancel
+      </button>
       <button
         onClick={handleBookNowClick}
         className="btn-primary w-full mt-6 disabled:bg-gray-500 disabled:cursor-not-allowed"
