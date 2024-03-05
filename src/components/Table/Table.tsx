@@ -115,13 +115,14 @@ const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal, handle
                 >
                   Rate
                 </button>
+                <br />
                 <button
                   onClick={() => handleDelete(booking._id)}
                   className="font-medium text-red-600 hover:underline"
                 >
                   Delete
                 </button>
-
+<br />
                 <button
                    onClick={() => {
                     setRoomId(booking.hotelRoom._id);
