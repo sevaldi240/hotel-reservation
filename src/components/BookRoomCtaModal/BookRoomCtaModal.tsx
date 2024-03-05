@@ -244,7 +244,7 @@ const BookRoomCtaModal: FC<Props> = props => {
             Cancel
       </button>
       <button
-        onClick={async () => {handleBookNowClicks();
+        onClick={async () => {bookingSubmitHandler();
           handleUpdateBooking();
           const res = await fetch('/api/sendt', 
           {

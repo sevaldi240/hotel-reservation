@@ -119,12 +119,8 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
     } finally {
       setRatingText("");
       setRatingValue(null);
-      setAdults(1);
-      setNoOfChildren(0);
-      setRoomId(null);
       setIsSubmittingReview(false);
       setIsRatingVisible(false);
-      setIsModifyVisible(false);
     }
   };
 
@@ -181,6 +177,12 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
     } catch (error) {
       console.log("Error: ", error);
       toast.error("An error occured");
+    } finally{
+      setAdults(1);
+      setNoOfChildren(0);
+      setRoomId(null);
+      setIsSubmittingBooking(false);
+      setIsModifyVisible(false)
     }
   };
 
@@ -400,6 +402,7 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
         isBooked={isBooked}
         bookingSubmitHandler={bookingSubmitHandler}
         isSubmittingBooking={isSubmittingBooking}
+        
         toggleBookingModal={toggleBookingModal}
       />
     )}
