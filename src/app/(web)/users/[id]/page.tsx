@@ -48,13 +48,6 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
   const fetchRoom = async () => getRoom(slug);
   const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
   const handleBookNowClick = () => setIsModifyVisible(prevState => !prevState);
-  const fetchUserBook = async () => {
-    const { data } = await axios.get<User>("/api/users");
-    return data;
-  };
-  // Llamada a useSWR
-  const { data: room, error:errorbooking, isLoading:errorloading } = useSWR("/api/room", fetchUserBook);
-  
   const reviewSubmitHandler = async () => {
     if (!ratingText.trim().length || !ratingValue) {
       return toast.error("Please provide a rating text and a rating");
@@ -86,11 +79,25 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
       setIsModifyVisible(false);
     }
   };
+
+  const fetchUserBooking = async () => getUserBookings(userId);
+  const fetchUserData = async () => {
+    const { data } = await axios.get<User>("/api/users");
+    return data;
+  };
+  const fetchUserBook = async () => {
+    const { data } = await axios.get<User>("/api/users");
+    return data;
+  };
+  // Llamada a useSWR
+  const { data: room, error:errorbooking, isLoading:errorloading } = useSWR("/api/room", fetchUserBook);
+
   if (errorbooking) throw new Error("Cannot fetch data");
   if (typeof room === "undefined" && !errorloading)
     throw new Error("Cannot fetch data");
 
-  if (!room) return <LoadingSpinner />;
+  // if (!room) return <LoadingSpinner />;
+
   const bookingSubmitHandler = async () => {
     if (!checkinDate || !checkoutDate)
       return toast.error("Porfavor Ingresa un fecha de checkin / checkout");
@@ -127,13 +134,6 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
       console.log("Error: ", error);
       toast.error("An error occured");
     }
-  };
-
-
-  const fetchUserBooking = async () => getUserBookings(userId);
-  const fetchUserData = async () => {
-    const { data } = await axios.get<User>("/api/users");
-    return data;
   };
 
   const {
