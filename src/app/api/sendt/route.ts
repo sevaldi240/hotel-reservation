@@ -1,4 +1,6 @@
 
+import { EmailTemplate } from '@/components/EmailTemplate/EmailTemplate';
+import { EmailTemplatedelete } from '@/components/EmailTemplateDelete/EmailTemplateDelete';
 import { EmailTemplatemodify } from '@/components/EmailTemplatemodify/EmailTemplatemodify';
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';

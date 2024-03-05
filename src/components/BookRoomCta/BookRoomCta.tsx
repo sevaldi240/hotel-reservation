@@ -153,14 +153,7 @@ const BookRoomCta: FC<Props> = props => {
 
       <button
         disabled={isBooked}
-        onClick={async () => {
-          handleBookNowClick();
-          const res = await fetch('/api/send', 
-          {
-            method: 'POST',
-          });
-          const data = await res.json();
-        }}
+        onClick={handleBookNowClick}
         className="btn-primary w-full mt-6 disabled:bg-gray-500 disabled:cursor-not-allowed"
       >
         {isBooked ? "Reservado" : "Reserva Ahora"}
