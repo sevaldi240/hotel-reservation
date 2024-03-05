@@ -48,8 +48,12 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
   const fetchRoom = async () => getRoom(slug);
   const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
   const handleBookNowClick = () => setIsModifyVisible(prevState => !prevState);
+  const fetchUserBook = async () => {
+    const { data } = await axios.get<User>("/api/users");
+    return data;
+  };
   // Llamada a useSWR
-  const { data: room, error:errorbooking, isLoading:errorloading } = useSWR("/api/room", fetchRoom);
+  const { data: room, error:errorbooking, isLoading:errorloading } = useSWR("/api/room", fetchUserBook);
   
   const reviewSubmitHandler = async () => {
     if (!ratingText.trim().length || !ratingValue) {
@@ -96,7 +100,7 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
 
     const numberOfDays = calcNumDays();
 
-     const hotelRoomSlug = room.slug.current;
+    //  const hotelRoomSlug = room.slug.current;
 
     const stripe = await getStripe();
 
@@ -107,7 +111,7 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
         adults,
         children: noOfChildren,
         numberOfDays,
-        hotelRoomSlug,
+        // hotelRoomSlug,
       });
 
       if (stripe) {
@@ -131,10 +135,6 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
     const { data } = await axios.get<User>("/api/users");
     return data;
   };
-  const fetchUserBook = async () => {
-    const { data } = await axios.put<User>("/api/users");
-    return data;
-  };
 
   const {
     data: userBookings,
@@ -150,11 +150,11 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
   } = useSWR("/api/users", fetchUserData);
 
 
-  const { 
-    data: user, 
-    error:errorUserBooking, 
-    isLoading:erroruserBooking 
-  } = useSWR("/api/room", fetchUserBook);
+  // const { 
+  //   data: user, 
+  //   error:errorUserBooking, 
+  //   isLoading:erroruserBooking 
+  // } = useSWR("/api/room", fetchUserBook);
 
   const calcNumDays = () => {
     if (!checkinDate || !checkoutDate) return;
