@@ -123,8 +123,7 @@ const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal, handle
                 </button>
 
                 <button
-                   onClick={() => {setRoomId(booking.hotelRoom._id);
-                    handleBookNowClick()}}
+                   onClick={() => handleUpdate(booking._id)}
                   className="font-medium text-green-600 hover:underline"
                 >
                   Modify
