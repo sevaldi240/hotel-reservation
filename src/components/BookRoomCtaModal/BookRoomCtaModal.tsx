@@ -165,7 +165,7 @@ const BookRoomCtaModal: FC<Props> = props => {
       <button
         onClick={async () => {
           // Lógica para enviar la solicitud al servidor
-          const res = await fetch('/api/send', {
+          const res = await fetch('/api/sendt', {
             method: 'POST',
           });
           const data = await res.json();
