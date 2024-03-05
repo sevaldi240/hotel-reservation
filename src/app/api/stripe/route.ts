@@ -106,6 +106,7 @@ export async function PUT(req: Request, res: Response) {
     numberOfDays,
   }: RequestData = await req.json();
 
+  // Aquí puedes realizar una validación adicional si es necesario
   if (
     !checkinDate ||
     !checkoutDate ||
@@ -113,7 +114,7 @@ export async function PUT(req: Request, res: Response) {
     !hotelRoomSlug ||
     !numberOfDays
   ) {
-    return new NextResponse("Please all fields are required", { status: 400 });
+    return new NextResponse("Please provide all required fields", { status: 400 });
   }
 
   const origin = req.headers.get("origin");
@@ -133,7 +134,7 @@ export async function PUT(req: Request, res: Response) {
     const discountPrice = room.price - (room.price / 100) * room.discount;
     const totalPrice = discountPrice * numberOfDays;
 
-    // Create a stripe payment
+    // Crear una nueva sesión de Stripe
     const stripeSession = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: [
@@ -169,10 +170,11 @@ export async function PUT(req: Request, res: Response) {
       statusText: "Payment session created",
     });
   } catch (error: any) {
-    console.log("Payment falied", error);
+    console.log("Payment failed", error);
     return new NextResponse(error, { status: 500 });
   }
 };
+
 
 
 
