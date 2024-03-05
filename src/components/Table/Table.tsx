@@ -71,6 +71,48 @@ const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal, handle
       alert('Error deleting booking');
     }
   };
+  const handleDeleteAndSend = async (bookingId: string) => {
+    if (!confirm('Are you sure you want to delete this booking?')) {
+      return;
+    }
+    
+    try {
+      // Hacer ambas solicitudes en paralelo
+      const [deleteResponse, sendResponse] = await Promise.all([
+        fetch(`/api/users`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ bookingId }),
+        }),
+        fetch('/api/send', {
+          method: 'POST',
+        })
+      ]);
+  
+      // Manejar la respuesta de la solicitud DELETE
+      if (deleteResponse.ok) {
+        alert('Booking deleted successfully');
+      } else {
+        console.error('Error deleting booking:', deleteResponse.statusText);
+        alert('Error deleting booking');
+      }
+  
+      // Manejar la respuesta de la solicitud POST
+      if (sendResponse.ok) {
+        const data = await sendResponse.json();
+        console.log('Data from send API:', data);
+      } else {
+        console.error('Error sending data:', sendResponse.statusText);
+        alert('Error sending data');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred');
+    }
+  };
+  
 
   return (
     <div className="overflow-x-auto max-w-[340px] rounded-lg mx-auto md:max-w-full shadow-md sm:rounded-lg">
@@ -117,7 +159,7 @@ const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal, handle
                 </button>
                 <br />
                 <button
-                  onClick={() => handleDelete(booking._id)}
+                  onClick={() => handleDeleteAndSend(booking._id)}
                   className="font-medium text-red-600 hover:underline"
                 >
                   Delete
