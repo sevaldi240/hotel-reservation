@@ -56,6 +56,7 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
   const [price]=useState<number>(0);
   const fetchRoom = async () => getRoom(slug);
   const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
+  const toggleBookingModal = () => setIsRatingVisible(prevState => !prevState);
   const handleBookNowClick = () => setIsRatingVisible(prevState => !prevState);
 
   // const handleBookNowClicks = async () => {
@@ -355,6 +356,7 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
                 setRoomId={setRoomId}
                 toggleRatingModal={toggleRatingModal}
                 handleBookNowClick={handleBookNowClick}
+                toggleBookingModal={toggleBookingModal}
               />
             )
           ) : (
@@ -400,6 +402,7 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
         bookingSubmitHandler={bookingSubmitHandler}
         isSubmittingBooking={isSubmittingBooking}
         handleBookNowClick={handleBookNowClick}
+        toggleBookingModal={toggleBookingModal}
       />
     )}
     <BackDrop isOpen={isModifyVisible}/>

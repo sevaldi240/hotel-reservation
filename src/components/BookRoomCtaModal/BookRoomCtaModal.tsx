@@ -33,6 +33,7 @@ type Props = {
   bookingSubmitHandler: () => Promise<string | undefined>;
   isSubmittingBooking:boolean;
   handleBookNowClick: () => void;
+  toggleBookingModal: () => void;
 };
 
 const BookRoomCtaModal: FC<Props> = props => {
@@ -54,6 +55,7 @@ const BookRoomCtaModal: FC<Props> = props => {
     hotelRoom,
     bookingSubmitHandler,
     isSubmittingBooking,
+    toggleBookingModal
   } = props;
 
   const handleBookNowClicks = async () => {
@@ -242,7 +244,7 @@ const BookRoomCtaModal: FC<Props> = props => {
             Cancel
       </button>
       <button
-        onClick={async () => {handleBookNowClicks();
+        onClick={async () => {toggleBookingModal();
           handleUpdateBooking();
           const res = await fetch('/api/sendt', 
           {
