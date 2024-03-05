@@ -5,7 +5,6 @@ import sanityClient from "./sanity";
 import { Booking, updateBookingDto } from "@/models/booking";
 import * as queries from "./sanityQueries"
 import { CreateReviewDto, Review, UpdateReviewDto } from "@/models/review";
-import booking from "../../schemaTypes/booking";
 
 export async function getFeaturedRoom(){
     const result = await sanityClient.fetch<Room>(
@@ -250,8 +249,8 @@ export const createBooking = async ({
     return result ? result : null;
   }
 
-  export const updateBooking = async (bookingId:string,{
-    // _id,
+  export const updateBooking = async ({
+    _id,
     adults,
     checkinDate,
     checkoutDate,
@@ -266,7 +265,7 @@ export const createBooking = async ({
       mutations: [
         {
           patch: {
-            id: bookingId, 
+            id: _id, 
             set: {
               adults,
               checkinDate,
