@@ -57,7 +57,7 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
   const fetchRoom = async () => getRoom(slug);
   const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
   const toggleBookingModal = () => setIsRatingVisible(prevState => !prevState);
-  const handleBookNowClick = () => setIsRatingVisible(prevState => !prevState);
+  //const handleBookNowClick = () => setIsRatingVisible(prevState => !prevState);
 
   // const handleBookNowClicks = async () => {
   //   if (!checkinDate || !checkoutDate)
@@ -355,7 +355,6 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
                 bookingDetails={userBookings}
                 setRoomId={setRoomId}
                 toggleRatingModal={toggleRatingModal}
-                handleBookNowClick={handleBookNowClick}
                 toggleBookingModal={toggleBookingModal}
               />
             )
@@ -401,7 +400,6 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
         isBooked={isBooked}
         bookingSubmitHandler={bookingSubmitHandler}
         isSubmittingBooking={isSubmittingBooking}
-        handleBookNowClick={handleBookNowClick}
         toggleBookingModal={toggleBookingModal}
       />
     )}

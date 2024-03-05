@@ -32,7 +32,7 @@ type Props = {
   isBooked: boolean;
   bookingSubmitHandler: () => Promise<string | undefined>;
   isSubmittingBooking:boolean;
-  handleBookNowClick: () => void;
+  //handleBookNowClick: () => void;
   toggleBookingModal: () => void;
 };
 
