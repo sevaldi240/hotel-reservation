@@ -1,5 +1,6 @@
 
 import { EmailTemplate } from '@/components/EmailTemplate/EmailTemplate';
+import { EmailTemplatedelete } from '@/components/EmailTemplateDelete/EmailTemplateDelete';
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
@@ -11,7 +12,7 @@ export async function POST() {
       from: 'Acme <onboarding@resend.dev>',
       to: ['sebastian_guaman26@hotmail.com'],
       subject: 'Eliminación de Reserva',
-      react: EmailTemplate({ firstName: 'Sergio' }),
+      react: EmailTemplatedelete({ firstName: 'Sergio' }),
       text:""
     });
 
