@@ -56,7 +56,43 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
   const [price]=useState<number>(0);
   const fetchRoom = async () => getRoom(slug);
   const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
-  const handleBookNowClick = () => setIsModifyVisible(prevState => !prevState);
+  const handleBookNowClick = async () => {
+    if (!checkinDate || !checkoutDate)
+      return toast.error("Porfavor Ingresa un fecha de checkin / checkout");
+
+    if (checkinDate > checkoutDate)
+      return toast.error("Porfavor seleccionaun periodo valido de checkin");
+
+    const numberOfDays = calcNumDays();
+
+    // const hotelRoomSlug = room.slug.current;
+
+    const stripe = await getStripe();
+
+    try {
+      const { data: stripeSession } = await axios.post("/api/stripe", {
+        checkinDate,
+        checkoutDate,
+        adults,
+        children: noOfChildren,
+        numberOfDays,
+        //hotelRoomSlug,
+      });
+
+      if (stripe) {
+        const result = await stripe.redirectToCheckout({
+          sessionId: stripeSession.id,
+        });
+
+        if (result.error) {
+          toast.error("Pago Fallado");
+        }
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+      toast.error("An error occured");
+    }
+  };
   const reviewSubmitHandler = async () => {
     if (!ratingText.trim().length || !ratingValue) {
       return toast.error("Please provide a rating text and a rating");
@@ -343,26 +379,26 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
       />
       <BackDrop isOpen={isRatingVisible} />
       {hotelRoom && (
-  <BookRoomCtaModal  
-  _id={_id}
-    isOpen={isModifyVisible}
-    checkinDate={checkinDate}
-    setCheckinDate={setCheckinDate}
-    checkoutDate={checkoutDate}
-    setCheckoutDate={setCheckoutDate}
-    discount={discount}
-    specialNote={specialNote}
-    hotelRoom={hotelRoom}
-    setAdults={setAdults}
-    setNoOfChildren={setNoOfChildren}
-    noOfChildren={noOfChildren}
-    price={price}
-    adults={adults}
-    isBooked={isBooked}
-    bookingSubmitHandler={bookingSubmitHandler}
-    isSubmittingBooking={isSubmittingBooking}
-    handleBookNowClick={handleBookNowClick}
-  />
+      <BookRoomCtaModal  
+      _id={_id}
+        isOpen={isModifyVisible}
+        checkinDate={checkinDate}
+        setCheckinDate={setCheckinDate}
+        checkoutDate={checkoutDate}
+        setCheckoutDate={setCheckoutDate}
+        discount={discount}
+        specialNote={specialNote}
+        hotelRoom={hotelRoom}
+        setAdults={setAdults}
+        setNoOfChildren={setNoOfChildren}
+        noOfChildren={noOfChildren}
+        price={price}
+        adults={adults}
+        isBooked={isBooked}
+        bookingSubmitHandler={bookingSubmitHandler}
+        isSubmittingBooking={isSubmittingBooking}
+        handleBookNowClick={handleBookNowClick}
+      />
 )}
       <BackDrop isOpen={isModifyVisible}/>
     </div>
