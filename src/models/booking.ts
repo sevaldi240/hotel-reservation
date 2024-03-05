@@ -18,8 +18,8 @@ export type Booking = {
   export type updateBookingDto={
     _id: string;
     adults: number;
-    checkinDate: string;
-    checkoutDate: string;
+    checkinDate: Date | null;
+    checkoutDate: Date | null;
     children: number;
     discount: number;
     hotelRoom: {

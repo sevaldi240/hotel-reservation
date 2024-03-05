@@ -21,7 +21,12 @@ import BookRoomCtaModal from "@/components/BookRoomCtaModal/BookRoomCtaModal";
 import { getStripe } from "@/libs/stripe";
 
 
-
+interface HotelRoom {
+  _id: string;
+  name: string;
+  slug: { current: string };
+  price: number;
+};
 const UserDetails = (props: { params: { id: string,slug:string } }) => {
   const {
     params: { id: userId },
@@ -33,6 +38,10 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
     "bookings" | "amount" | "ratings"
   >("bookings");
   const [roomId, setRoomId] = useState<string | null>(null);
+   const[_id]=useState<string>("");
+  const[discount]=useState<number>(0);
+  const[specialNote]=useState<string>("");
+  const [hotelRoom, ] = useState<HotelRoom|null>(null);
   const [isRatingVisible, setIsRatingVisible] = useState(false);
   const [isModifyVisible, setIsModifyVisible] = useState(false);
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
@@ -333,22 +342,28 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
         toggleRatingModal={toggleRatingModal}
       />
       <BackDrop isOpen={isRatingVisible} />
-      <BookRoomCtaModal  
-        isOpen= {isModifyVisible}
-        checkinDate= {checkinDate}
-        setCheckinDate= {setCheckinDate}
-        checkoutDate={checkoutDate}
-        setCheckoutDate={setCheckoutDate}
-        setAdults={setAdults}
-        setNoOfChildren={setNoOfChildren}
-        noOfChildren={noOfChildren}
-        price={price}
-        adults={adults}
-        isBooked= {isBooked}
-        bookingSubmitHandler={bookingSubmitHandler}
-        isSubmittingBooking={isSubmittingBooking}
-        handleBookNowClick={handleBookNowClick}
-        />
+      {hotelRoom && (
+  <BookRoomCtaModal  
+  _id={_id}
+    isOpen={isModifyVisible}
+    checkinDate={checkinDate}
+    setCheckinDate={setCheckinDate}
+    checkoutDate={checkoutDate}
+    setCheckoutDate={setCheckoutDate}
+    discount={discount}
+    specialNote={specialNote}
+    hotelRoom={hotelRoom}
+    setAdults={setAdults}
+    setNoOfChildren={setNoOfChildren}
+    noOfChildren={noOfChildren}
+    price={price}
+    adults={adults}
+    isBooked={isBooked}
+    bookingSubmitHandler={bookingSubmitHandler}
+    isSubmittingBooking={isSubmittingBooking}
+    handleBookNowClick={handleBookNowClick}
+  />
+)}
       <BackDrop isOpen={isModifyVisible}/>
     </div>
   );

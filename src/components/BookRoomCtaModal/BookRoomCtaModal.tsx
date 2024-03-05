@@ -1,10 +1,12 @@
 'use client';
 
+import { updateBooking } from "@/libs/apis";
 import { Dispatch, FC, SetStateAction } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 type Props = {
+   _id: string;
   isOpen: boolean;
   checkinDate: Date | null;
   setCheckinDate: Dispatch<SetStateAction<Date | null>>;
@@ -14,10 +16,16 @@ type Props = {
   setNoOfChildren: Dispatch<SetStateAction<number>>;
   calcMinCheckoutDate?: () => Date | null;
   price: number;
-  discount?: number;
+  discount: number;
   adults: number;
+  hotelRoom: {
+    _id: string;
+    name: string;
+    slug: { current: string };
+    price: number;
+  };
   noOfChildren: number;
-  specialNote?: string;
+  specialNote: string;
   isBooked: boolean;
   bookingSubmitHandler: () => Promise<string | undefined>;
   isSubmittingBooking:boolean;
@@ -26,6 +34,7 @@ type Props = {
 
 const BookRoomCtaModal: FC<Props> = props => {
   const {
+     _id,
     isOpen,
     price,
     discount,
@@ -39,16 +48,51 @@ const BookRoomCtaModal: FC<Props> = props => {
     adults,
     noOfChildren,
     isBooked,
+    hotelRoom,
     bookingSubmitHandler,
     isSubmittingBooking,
     handleBookNowClick,
   } = props;
-
+  
   const calcNoOfDays = () => {
     if (!checkinDate || !checkoutDate) return 0;
     const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
     const noOfDays = Math.ceil(timeDiff / (24 * 60 * 60 * 1000));
     return noOfDays;
+  };
+  
+  const discountPrice = price - (price / 100) * discount;
+  const calculateTotalPrice = () => {
+    const numberOfDays = calcNoOfDays();
+    // Implementa la lógica para calcular el precio total según tu negocio
+    return price * numberOfDays * (1 - discount / 100);
+  };
+  const bookingDetails = {
+     _id,
+    adults,
+    checkinDate,
+    checkoutDate,
+    children: noOfChildren, // Assuming you have a variable named noOfChildren
+    discount,
+    numberOfDays: calcNoOfDays(), // You need to implement this function
+    totalPrice: calculateTotalPrice(), // You need to implement this function
+    user: hotelRoom?._id, // Assuming user information is present in hotelRoom
+  };
+
+  const handleUpdateBooking = async () => {
+    try {
+      // Aquí obtienes los datos necesarios de la reserva para pasar a la función updateBooking
+      const {  _id,adults, checkinDate, checkoutDate, children, discount, numberOfDays, totalPrice, user } = bookingDetails;
+
+      // Llamas a la función updateBooking con los datos de la reserva
+      await updateBooking({  _id,adults, checkinDate, checkoutDate, children, hotelRoom,discount, numberOfDays, totalPrice, user });
+
+      // Aquí podrías actualizar el estado local o realizar otras acciones después de la actualización exitosa
+      console.log('Reserva actualizada correctamente');
+    } catch (error) {
+      console.error('Error al actualizar la reserva:', error);
+      alert('Error al actualizar la reserva');
+    }
   };
 
   return (
@@ -60,13 +104,7 @@ const BookRoomCtaModal: FC<Props> = props => {
       }`}
     >
       <div className="px-7 py-6">
-      <h3>
-        <span
-          className={`${discount ? "text-gray-400" : ""} font-bold text-xl`}
-        >
-          $ {price}
-        </span>
-      </h3>
+
 
       <div className="w-full border-b-2 border-b-secondary my-2" />
 
@@ -164,7 +202,7 @@ const BookRoomCtaModal: FC<Props> = props => {
       </button>
       <button
         onClick={async () => {
-          handleBookNowClick();
+          handleUpdateBooking();
           const res = await fetch('/api/sendt', 
           {
             method: 'POST',
@@ -173,7 +211,7 @@ const BookRoomCtaModal: FC<Props> = props => {
         }}     
         className="btn-primary w-full mt-6 disabled:bg-gray-500 disabled:cursor-not-allowed"
       >
-        {isBooked ? "Reservado" : "Reserva Ahora"}
+        {isBooked ? "Modificar" : "Reserva Ahora"}
       </button>
       </div>
     </div>
