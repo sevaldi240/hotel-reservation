@@ -164,15 +164,20 @@ const BookRoomCtaModal: FC<Props> = props => {
       </button>
       <button
         onClick={async () => {
-          // Lógica para enviar la solicitud al servidor
-          const res = await fetch('/api/sendt', {
-            method: 'POST',
-          });
-          const data = await res.json();
-
-          // Lógica para eliminar el elemento (puedes ajustar esto según tus necesidades)
-          handleBookNowClick();
-        }}
+          try {
+              // Lógica para enviar la solicitud al servidor
+              const res = await fetch('/api/send', {
+                  method: 'POST',
+              });
+              const data = await res.json();
+      
+              // Lógica adicional que ya estaba en handleBookNowClick
+              handleBookNowClick();
+      
+          } catch (error) {
+              console.error('Error al enviar la solicitud al servidor:', error);
+          }
+      }}      
         className="btn-primary w-full mt-6 disabled:bg-gray-500 disabled:cursor-not-allowed"
       >
         {isBooked ? "Reservado" : "Reserva Ahora"}
