@@ -1,9 +1,12 @@
 'use client';
 
 import { updateBooking } from "@/libs/apis";
+import { getStripe } from "@/libs/stripe";
+import axios from "axios";
 import { Dispatch, FC, SetStateAction } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import toast from "react-hot-toast";
 
 type Props = {
    _id: string;
@@ -51,9 +54,47 @@ const BookRoomCtaModal: FC<Props> = props => {
     hotelRoom,
     bookingSubmitHandler,
     isSubmittingBooking,
-    handleBookNowClick,
   } = props;
-  
+
+  const handleBookNowClicks = async () => {
+    if (!checkinDate || !checkoutDate)
+      return toast.error("Porfavor Ingresa un fecha de checkin / checkout");
+
+    if (checkinDate > checkoutDate)
+      return toast.error("Porfavor seleccionaun periodo valido de checkin");
+
+    const numberOfDays = calcNoOfDays();
+
+    // const hotelRoomSlug = room.slug.current;
+
+    const stripe = await getStripe();
+
+    try {
+      const { data: stripeSession } = await axios.post("/api/stripe", {
+        checkinDate,
+        checkoutDate,
+        adults,
+        children: noOfChildren,
+        numberOfDays,
+        //hotelRoomSlug,
+      });
+
+      if (stripe) {
+        const result = await stripe.redirectToCheckout({
+          sessionId: stripeSession.id,
+        });
+
+        if (result.error) {
+          toast.error("Pago Fallado");
+        }
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+      toast.error("An error occured");
+    }
+  };
+
+
   const calcNoOfDays = () => {
     if (!checkinDate || !checkoutDate) return 0;
     const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
@@ -195,13 +236,13 @@ const BookRoomCtaModal: FC<Props> = props => {
             {isSubmittingBooking ? "Submitting" : "Submit"}
       </button> */}
       <button
-            onClick={handleBookNowClick}
+            onClick={handleBookNowClicks}
             className="ml-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
           >
             Cancel
       </button>
       <button
-        onClick={async () => {
+        onClick={async () => {handleBookNowClicks();
           handleUpdateBooking();
           const res = await fetch('/api/sendt', 
           {

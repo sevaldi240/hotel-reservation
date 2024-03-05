@@ -56,43 +56,45 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
   const [price]=useState<number>(0);
   const fetchRoom = async () => getRoom(slug);
   const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
-  const handleBookNowClick = async () => {
-    if (!checkinDate || !checkoutDate)
-      return toast.error("Porfavor Ingresa un fecha de checkin / checkout");
+  const handleBookNowClick = () => setIsRatingVisible(prevState => !prevState);
 
-    if (checkinDate > checkoutDate)
-      return toast.error("Porfavor seleccionaun periodo valido de checkin");
+  // const handleBookNowClicks = async () => {
+  //   if (!checkinDate || !checkoutDate)
+  //     return toast.error("Porfavor Ingresa un fecha de checkin / checkout");
 
-    const numberOfDays = calcNumDays();
+  //   if (checkinDate > checkoutDate)
+  //     return toast.error("Porfavor seleccionaun periodo valido de checkin");
 
-    // const hotelRoomSlug = room.slug.current;
+  //   const numberOfDays = calcNumDays();
 
-    const stripe = await getStripe();
+  //   // const hotelRoomSlug = room.slug.current;
 
-    try {
-      const { data: stripeSession } = await axios.post("/api/stripe", {
-        checkinDate,
-        checkoutDate,
-        adults,
-        children: noOfChildren,
-        numberOfDays,
-        //hotelRoomSlug,
-      });
+  //   const stripe = await getStripe();
 
-      if (stripe) {
-        const result = await stripe.redirectToCheckout({
-          sessionId: stripeSession.id,
-        });
+  //   try {
+  //     const { data: stripeSession } = await axios.post("/api/stripe", {
+  //       checkinDate,
+  //       checkoutDate,
+  //       adults,
+  //       children: noOfChildren,
+  //       numberOfDays,
+  //       //hotelRoomSlug,
+  //     });
 
-        if (result.error) {
-          toast.error("Pago Fallado");
-        }
-      }
-    } catch (error) {
-      console.log("Error: ", error);
-      toast.error("An error occured");
-    }
-  };
+  //     if (stripe) {
+  //       const result = await stripe.redirectToCheckout({
+  //         sessionId: stripeSession.id,
+  //       });
+
+  //       if (result.error) {
+  //         toast.error("Pago Fallado");
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log("Error: ", error);
+  //     toast.error("An error occured");
+  //   }
+  // };
   const reviewSubmitHandler = async () => {
     if (!ratingText.trim().length || !ratingValue) {
       return toast.error("Please provide a rating text and a rating");
@@ -380,7 +382,7 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
       <BackDrop isOpen={isRatingVisible} />
       {hotelRoom && (
       <BookRoomCtaModal  
-      _id={_id}
+        _id={_id}
         isOpen={isModifyVisible}
         checkinDate={checkinDate}
         setCheckinDate={setCheckinDate}
@@ -399,8 +401,8 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
         isSubmittingBooking={isSubmittingBooking}
         handleBookNowClick={handleBookNowClick}
       />
-)}
-      <BackDrop isOpen={isModifyVisible}/>
+    )}
+    <BackDrop isOpen={isModifyVisible}/>
     </div>
   );
 };
