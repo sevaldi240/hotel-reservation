@@ -22,9 +22,10 @@ import { getStripe } from "@/libs/stripe";
 
 
 
-const UserDetails = (props: { params: { id: string } }) => {
+const UserDetails = (props: { params: { id: string,slug:string } }) => {
   const {
     params: { id: userId },
+    params:{slug},
     
   } = props;
 
@@ -44,7 +45,7 @@ const UserDetails = (props: { params: { id: string } }) => {
   const [noOfChildren,setNoOfChildren]=useState<number>(0);
   const [isBooked, setIsBooked]=useState(false);
   const [price]=useState<number>(0);
-  const fetchRoom = async () => getRoom(userId);
+  const fetchRoom = async () => getRoom(slug);
 
    const { data: room, error:errorbooking, isLoading:errorloading } = useSWR("/api/room", fetchRoom);
 
@@ -82,7 +83,11 @@ const UserDetails = (props: { params: { id: string } }) => {
       setIsModifyVisible(false);
     }
   };
+  if (errorbooking) throw new Error("Cannot fetch data");
+  if (typeof room === "undefined" && !errorloading)
+    throw new Error("Cannot fetch data");
 
+  if (!room) return <LoadingSpinner />;
   const bookingSubmitHandler = async () => {
     if (!checkinDate || !checkoutDate)
       return toast.error("Porfavor Ingresa un fecha de checkin / checkout");
@@ -92,16 +97,18 @@ const UserDetails = (props: { params: { id: string } }) => {
 
     const numberOfDays = calcNumDays();
 
+     const hotelRoomSlug = room.slug.current;
 
     const stripe = await getStripe();
 
     try {
-      const { data: stripeSession } = await axios.put("/api/stripe", {
+      const { data: stripeSession } = await axios.post("/api/stripe", {
         checkinDate,
         checkoutDate,
         adults,
         children: noOfChildren,
         numberOfDays,
+        hotelRoomSlug,
       });
 
       if (stripe) {
