@@ -146,12 +146,12 @@ const BookRoomCtaModal: FC<Props> = props => {
           : "opacity-0 pointer-events-none"
       }`}
     >
-      <div className="px-7 py-6">
+       <div className="px-7 py-6"> 
 
 
       <div className="w-full border-b-2 border-b-secondary my-2" />
 
-      <h4 className="my-8">{specialNote}</h4>
+      {/* <h4 className="my-8">{specialNote}</h4> */}
 
       <div className="flex">
         <div className="w-1/2 pr-2">
@@ -253,9 +253,9 @@ const BookRoomCtaModal: FC<Props> = props => {
           const data = await res.json();
         }}     
         className="btn-primary w-full mt-6 disabled:bg-gray-500 disabled:cursor-not-allowed"
-      >
-        {isBooked ? "Modificar" : "Reserva Ahora"}
-      </button>
+        >
+          {isBooked ? "Modificar" : "Reserva Ahora"}
+        </button>
       </div>
     </div>
   );
