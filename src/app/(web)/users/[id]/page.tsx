@@ -47,7 +47,8 @@ const UserDetails = (props: { params: { id: string,slug:string } }) => {
   const [price]=useState<number>(0);
   const fetchRoom = async () => getRoom(slug);
 
-   const { data: room, error:errorbooking, isLoading:errorloading } = useSWR("/api/room", fetchRoom);
+  // Llamada a useSWR
+  const { data: room, error:errorbooking, isLoading:errorloading } = useSWR("/api/room", fetchRoom);
 
   const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
   const handleBookNowClick = () => setIsModifyVisible(prevState => !prevState);
